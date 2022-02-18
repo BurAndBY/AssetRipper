@@ -12,7 +12,7 @@ namespace AssetRipper.Library.Exporters.Scripts
 	{
 		private readonly Dictionary<AssemblyDefinition, CSharpDecompiler> decompilers = new Dictionary<AssemblyDefinition, CSharpDecompiler>();
 		private readonly CecilAssemblyResolver assemblyResolver;
-		private LanguageVersion m_languageVersion = LanguageVersion.CSharp7_3;
+		private LanguageVersion m_languageVersion = LanguageVersion.CSharp6;
 		private ScriptContentLevel m_ScriptContentLevel = ScriptContentLevel.Level2;
 
 		public ScriptDecompiler(IAssemblyManager assemblyManager) : this(new CecilAssemblyResolver(assemblyManager)) { }
