@@ -23,13 +23,5 @@ namespace AssetRipper.Library.Configuration
 				_ => throw new ArgumentOutOfRangeException(nameof(scriptLanguageVersion), $"{scriptLanguageVersion}"),
 			};
 		}
-
-		private static LanguageVersion GetAutomaticCSharpLanguageVersion(UnityVersion unityVersion, bool experimental)
-		{
-			else if (experimental && unityVersion.IsGreaterEqual(2017, 1))
-				return LanguageVersion.CSharp6;
-			else
-				return LanguageVersion.CSharp4;
-		}
 	}
 }
