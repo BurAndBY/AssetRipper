@@ -35,13 +35,13 @@ namespace AssetRipper.Core.Math.Vectors
 		{
 			get
 			{
-				switch (index)
+				return index switch
 				{
-					case 0: return X;
-					case 1: return Y;
-					case 2: return Z;
-					default: throw new ArgumentOutOfRangeException(nameof(index), "Invalid Vector3 index!");
-				}
+					0 => X,
+					1 => Y,
+					2 => Z,
+					_ => throw new ArgumentOutOfRangeException(nameof(index), "Invalid Vector3 index!"),
+				};
 			}
 
 			set
@@ -151,35 +151,6 @@ namespace AssetRipper.Core.Math.Vectors
 
 		public static Vector3f Zero => new Vector3f();
 
-		public void Normalize()
-		{
-			var length = Length();
-			if (length > kEpsilon)
-			{
-				var invNorm = 1.0f / length;
-				X *= invNorm;
-				Y *= invNorm;
-				Z *= invNorm;
-			}
-			else
-			{
-				X = 0;
-				Y = 0;
-				Z = 0;
-			}
-		}
-
-		public float Length()
-		{
-			return (float)System.Math.Sqrt(LengthSquared());
-		}
-
-		public float LengthSquared()
-		{
-			return X * X + Y * Y + Z * Z;
-		}
-
-		private const float kEpsilon = 0.00001F;
 		public const string XName = "x";
 		public const string YName = "y";
 		public const string ZName = "z";

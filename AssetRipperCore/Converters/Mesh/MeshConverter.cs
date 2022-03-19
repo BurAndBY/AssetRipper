@@ -50,8 +50,8 @@ namespace AssetRipper.Core.Converters.Mesh
 			if (Classes.Mesh.Mesh.HasBonesAABB(container.ExportVersion))
 			{
 				instance.BonesAABB = GetBonesAABB(container, origin);
-				instance.VariableBoneCountWeights = GetVariableBoneCountWeights(container, origin);
 			}
+			instance.VariableBoneCountWeights.CopyValues(origin.VariableBoneCountWeights ?? new VariableBoneCountWeights());
 			if (Classes.Mesh.Mesh.HasMeshCompression(container.ExportVersion))
 			{
 				instance.MeshCompression = GetMeshCompression(container, origin);
@@ -104,8 +104,8 @@ namespace AssetRipper.Core.Converters.Mesh
 				instance.Normals = origin.Normals.ToArray();
 			}
 
-			instance.CompressedMesh = origin.CompressedMesh.Convert(container);
-			instance.LocalAABB = origin.LocalAABB.DeepClone();
+			instance.CompressedMesh.CopyValues(origin.CompressedMesh);
+			instance.LocalAABB.CopyValuesFrom(origin.LocalAABB);
 			if (Classes.Mesh.Mesh.HasCollisionTriangles(container.ExportVersion))
 			{
 				instance.CollisionTriangles = origin.CollisionTriangles.ToArray();
@@ -122,7 +122,7 @@ namespace AssetRipper.Core.Converters.Mesh
 				instance.MeshMetrics = GetMeshMetrics(container, origin);
 			}
 
-			instance.StreamData = GetStreamData(container, origin);
+			instance.StreamData.CopyValues(origin.StreamData ?? new StreamingInfo());
 
 			if (Classes.Mesh.Mesh.HasUse16bitIndices(container.ExportVersion))
 			{
@@ -200,11 +200,6 @@ namespace AssetRipper.Core.Converters.Mesh
 		private static MinMaxAABB[] GetBonesAABB(IExportContainer container, Classes.Mesh.Mesh origin)
 		{
 			return Classes.Mesh.Mesh.HasBonesAABB(container.Version) ? origin.BonesAABB.ToArray() : Array.Empty<MinMaxAABB>();
-		}
-
-		private static VariableBoneCountWeights GetVariableBoneCountWeights(IExportContainer container, Classes.Mesh.Mesh origin)
-		{
-			return Classes.Mesh.Mesh.HasBonesAABB(container.Version) ? origin.VariableBoneCountWeights : new VariableBoneCountWeights();
 		}
 
 		private static MeshCompression GetMeshCompression(IExportContainer container, Classes.Mesh.Mesh origin)
@@ -289,11 +284,6 @@ namespace AssetRipper.Core.Converters.Mesh
 		private static float[] GetMeshMetrics(IExportContainer container, Classes.Mesh.Mesh origin)
 		{
 			return Classes.Mesh.Mesh.HasMeshMetrics(container.Version) ? origin.MeshMetrics.ToArray() : new float[] { 1.0f, 1.0f };
-		}
-
-		private static StreamingInfo GetStreamData(IExportContainer container, Classes.Mesh.Mesh origin)
-		{
-			return Classes.Mesh.Mesh.HasStreamData(container.Version) ? origin.StreamData : new StreamingInfo();
 		}
 
 		private static VertexData GenerateVertexData(IExportContainer container, Classes.Mesh.Mesh origin)

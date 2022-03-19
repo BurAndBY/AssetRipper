@@ -230,6 +230,7 @@ namespace AssetRipper.Core.Project
 			OverrideYamlExporter(ClassIDType.CompositeCollider2D);
 			OverrideYamlExporter(ClassIDType.EdgeCollider2D);
 			OverrideYamlExporter(ClassIDType.CapsuleCollider2D);
+			OverrideYamlExporter(ClassIDType.ComputeShader);
 			OverrideYamlExporter(ClassIDType.AnimationClip);
 			OverrideYamlExporter(ClassIDType.TagManager);
 			OverrideYamlExporter(ClassIDType.AudioListener);
@@ -287,6 +288,7 @@ namespace AssetRipper.Core.Project
 			OverrideYamlExporter(ClassIDType.CanvasGroup);
 			OverrideYamlExporter(ClassIDType.ClusterInputManager);
 			OverrideYamlExporter(ClassIDType.NavMeshData);
+			OverrideYamlExporter(ClassIDType.LightProbes);
 			OverrideYamlExporter(ClassIDType.UnityConnectSettings);
 			OverrideYamlExporter(ClassIDType.AvatarMask);
 			OverrideYamlExporter(ClassIDType.ParticleSystemForceField);

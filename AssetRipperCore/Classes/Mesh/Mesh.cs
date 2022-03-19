@@ -28,13 +28,13 @@ namespace AssetRipper.Core.Classes.Mesh
 	public sealed class Mesh : NamedObject, IMesh
 	{
 		public BlendShapeData Shapes { get; set; } = new BlendShapeData();
-		public VariableBoneCountWeights VariableBoneCountWeights { get; set; } = new VariableBoneCountWeights();
+		public IVariableBoneCountWeights VariableBoneCountWeights { get; } = new VariableBoneCountWeights();
 		public VertexData VertexData { get; set; } = new VertexData();
-		public CompressedMesh CompressedMesh { get; set; } = new CompressedMesh();
-		public AABB LocalAABB { get; set; } = new AABB();
+		public ICompressedMesh CompressedMesh { get; } = new CompressedMesh();
+		public IAABB LocalAABB { get; } = new AABB();
 		public byte[] BakedConvexCollisionMesh { get; set; } = Array.Empty<byte>();
 		public byte[] BakedTriangleCollisionMesh { get; set; } = Array.Empty<byte>();
-		public StreamingInfo StreamData { get; set; } = new StreamingInfo();
+		public IStreamingInfo StreamData { get; } = new StreamingInfo();
 		public uint Use16BitIndices
 		{
 			get => IndexFormat == IndexFormat.UInt16 ? 1U : 0U;
@@ -1126,7 +1126,7 @@ namespace AssetRipper.Core.Classes.Mesh
 			if (CompressedMesh.Normals.NumItems > 0)
 			{
 				var normalData = CompressedMesh.Normals.UnpackFloats(2, 4 * 2);
-				var signs = CompressedMesh.NormalSigns.Unpack();
+				var signs = CompressedMesh.NormalSigns.UnpackInts();
 				Normals = new Vector3f[CompressedMesh.Normals.NumItems / 2];
 				for (int i = 0; i < CompressedMesh.Normals.NumItems / 2; ++i)
 				{
@@ -1154,7 +1154,7 @@ namespace AssetRipper.Core.Classes.Mesh
 			if (CompressedMesh.Tangents.NumItems > 0)
 			{
 				var tangentData = CompressedMesh.Tangents.UnpackFloats(2, 4 * 2);
-				var signs = CompressedMesh.TangentSigns.Unpack();
+				var signs = CompressedMesh.TangentSigns.UnpackInts();
 				Tangents = new Vector4f[CompressedMesh.Tangents.NumItems / 2];
 				for (int i = 0; i < CompressedMesh.Tangents.NumItems / 2; ++i)
 				{
@@ -1190,8 +1190,8 @@ namespace AssetRipper.Core.Classes.Mesh
 			//Skin
 			if (CompressedMesh.Weights.NumItems > 0)
 			{
-				var weights = CompressedMesh.Weights.Unpack();
-				var boneIndices = CompressedMesh.BoneIndices.Unpack();
+				var weights = CompressedMesh.Weights.UnpackInts();
+				var boneIndices = CompressedMesh.BoneIndices.UnpackInts();
 
 				InitMSkin();
 
@@ -1235,14 +1235,14 @@ namespace AssetRipper.Core.Classes.Mesh
 			//IndexBuffer
 			if (CompressedMesh.Triangles.NumItems > 0)
 			{
-				ProcessedIndexBuffer = Array.ConvertAll(CompressedMesh.Triangles.Unpack(), x => (uint)x);
+				ProcessedIndexBuffer = Array.ConvertAll(CompressedMesh.Triangles.UnpackInts(), x => (uint)x);
 			}
 			//Color
 			if (CompressedMesh.Colors.NumItems > 0)
 			{
 				CompressedMesh.Colors.NumItems *= 4;
 				CompressedMesh.Colors.BitSize /= 4;
-				var tempColors = CompressedMesh.Colors.Unpack();
+				var tempColors = CompressedMesh.Colors.UnpackInts();
 				Colors = new ColorRGBA32[CompressedMesh.Colors.NumItems / 4];
 				for (int v = 0; v < CompressedMesh.Colors.NumItems / 4; v++)
 				{
@@ -1388,27 +1388,18 @@ namespace AssetRipper.Core.Classes.Mesh
 
 		public Vector2f[] GetUV(int uv)
 		{
-			switch (uv)
+			return uv switch
 			{
-				case 0:
-					return UV0;
-				case 1:
-					return UV1;
-				case 2:
-					return UV2;
-				case 3:
-					return UV3;
-				case 4:
-					return UV4;
-				case 5:
-					return UV5;
-				case 6:
-					return UV6;
-				case 7:
-					return UV7;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
+				0 => UV0,
+				1 => UV1,
+				2 => UV2,
+				3 => UV3,
+				4 => UV4,
+				5 => UV5,
+				6 => UV6,
+				7 => UV7,
+				_ => throw new ArgumentOutOfRangeException(),
+			};
 		}
 
 		public bool MeshOptimized

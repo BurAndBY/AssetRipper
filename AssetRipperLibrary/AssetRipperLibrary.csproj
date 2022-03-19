@@ -25,14 +25,14 @@
   <ItemGroup>
     <PackageReference Include="AssetRipper.TextureDecoder" Version="1.1.0" />
     <PackageReference Include="Fmod5Sharp" Version="1.2.0" />
-	<PackageReference Include="ICSharpCode.Decompiler" Version="7.2.0.6843-rc" />
+	<PackageReference Include="ICSharpCode.Decompiler" Version="7.2.0.6844" />
     <PackageReference Include="NAudio.Core" Version="2.0.0" />
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
     <PackageReference Include="NAudio.Vorbis" Version="1.5.0" />
     <PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0025" />
     <PackageReference Include="SharpGLTF.Toolkit" Version="1.0.0-alpha0025" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="2.0.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="2.1.0" />
     <PackageReference Include="YamlDotNet" Version="11.2.1" />
   </ItemGroup>
 
@@ -65,6 +65,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssetRipperCore\AssetRipperCore.csproj" />
+    <ProjectReference Include="..\ShaderTextRestorer\ShaderTextRestorer.csproj" />
     <ProjectReference Include="..\Texture2DDecoderWrapper\Texture2DDecoderWrapper.csproj" />
   </ItemGroup>
 

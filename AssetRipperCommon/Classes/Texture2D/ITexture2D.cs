@@ -1,6 +1,5 @@
 ﻿using AssetRipper.Core.Classes.Misc;
 using AssetRipper.Core.Extensions;
-using AssetRipper.Core.Interfaces;
 using AssetRipper.Core.Parser.Files;
 using System;
 
@@ -28,6 +27,7 @@ namespace AssetRipper.Core.Classes.Texture2D
 		bool AlphaIsTransparency { get; set; }
 		bool IsReadable { get; set; }
 		IStreamingInfo StreamData { get; }
+		IGLTextureSettings TextureSettings { get; }
 	}
 
 	public static class Texture2DExtensions
